@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 		// »·ÐÎÓÍÎÛ¼ì²â
 		Facevisa_TensorRT_result_s results;
 		double start = clock();
-		if (FACEVISA_OK != Facevisa_Engine_Inference(handle, img, &results)) {
+		if (FACEVISA_OK != Facevisa_Engine_Inference(handle, img, results)) {
 			std::cout << "¼ì²âÊ§°Ü£¡£¡£¡ " << std::endl;
 			continue;
 		}
@@ -93,7 +93,7 @@ int main(int argc, char** argv)
 //		imgs.push_back(img);
 //		Facevisa_TensorRT_result_b results;
 //		double start = clock();
-//		if (FACEVISA_OK != Facevisa_Engine_Inference(handle, imgs, &results)) {
+//		if (FACEVISA_OK != Facevisa_Engine_Inference(handle, imgs, results)) {
 //			std::cout << "¼ì²âÊ§°Ü£¡£¡£¡ " << std::endl;
 //			continue;
 //		}

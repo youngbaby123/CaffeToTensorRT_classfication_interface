@@ -238,7 +238,7 @@ static int Facevisa_Engine_Forward(Facevisa_TensorRT_handle handle, float* input
 
 // 多batch检测主接口
 // 注意： 输入图像的images.size() 要与 batch size 一致
-int Facevisa_Engine_Inference(Facevisa_TensorRT_handle handle, const std::vector<cv::Mat> &images, Facevisa_TensorRT_result_b *results)
+int Facevisa_Engine_Inference(Facevisa_TensorRT_handle handle, const std::vector<cv::Mat> &images, Facevisa_TensorRT_result_b &results)
 {
 	TensorRTCaffeCantainer *param = (TensorRTCaffeCantainer *)handle;
 	int width = param->input_dims.w();
@@ -285,15 +285,16 @@ int Facevisa_Engine_Inference(Facevisa_TensorRT_handle handle, const std::vector
 				max_score = single_score;
 			}
 		}
-		results->cls.push_back(max_ind);
-		results->score.push_back(prob);
+		results.cls.push_back(max_ind);
+		results.score.push_back(prob);
 	}
-
+	free(input_data);
+	free(detectionOut);
 	return FACEVISA_OK;
 }
 
 // 单batch检测主接口
-int Facevisa_Engine_Inference(Facevisa_TensorRT_handle handle, const cv::Mat &image, Facevisa_TensorRT_result_s *results)
+int Facevisa_Engine_Inference(Facevisa_TensorRT_handle handle, const cv::Mat &image, Facevisa_TensorRT_result_s &results)
 {
 	TensorRTCaffeCantainer *param = (TensorRTCaffeCantainer *)handle;
 	int width = param->input_dims.w();
@@ -335,9 +336,11 @@ int Facevisa_Engine_Inference(Facevisa_TensorRT_handle handle, const cv::Mat &im
 			max_score = single_score;
 		}
 	}
-	results->cls = max_ind;
-	results->score = prob;
-
+	results.cls = max_ind;
+	results.score = prob;
+	free(input_data);
+	free(detectionOut);
+	
 	return FACEVISA_OK;
 }
 
@@ -353,6 +356,7 @@ int Facevisa_Engine_Release(Facevisa_TensorRT_handle handle) {
 		cudaFree(param->buffers[i]);
 	}
 	free(param);
+
 	handle = NULL;
 	return FACEVISA_OK;
 }

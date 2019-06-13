@@ -32,8 +32,8 @@ typedef struct _Facevisa_TensorRT_result_single_
 
 int Facevisa_Engine_Create(Facevisa_TensorRT_handle *handle, int device_id);
 
-int Facevisa_Engine_Inference(Facevisa_TensorRT_handle handle, const std::vector<cv::Mat> &images, Facevisa_TensorRT_result_b *results);
-int Facevisa_Engine_Inference(Facevisa_TensorRT_handle handle, const cv::Mat &image, Facevisa_TensorRT_result_s *results);
+int Facevisa_Engine_Inference(Facevisa_TensorRT_handle handle, const std::vector<cv::Mat> &images, Facevisa_TensorRT_result_b &results);
+int Facevisa_Engine_Inference(Facevisa_TensorRT_handle handle, const cv::Mat &image, Facevisa_TensorRT_result_s &results);
 
 int Facevisa_Engine_Release(Facevisa_TensorRT_handle handle);
 
